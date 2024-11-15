@@ -1,31 +1,36 @@
-import React, { useState } from "react";
-import Flashcard from "./components/Flashcard";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Flashcards from "./components/Flashcards";
+import TestMode from "./components/TestMode";
 import "./App.css";
 
-const themes = {
-  Love: [
-    { quote: "Love is blind.", analysis: "This means that love often blinds people to faults." },
-    { quote: "Love conquers all.", analysis: "Love can overcome obstacles." }
-  ],
-  Friendship: [
-    { quote: "A friend in need is a friend indeed.", analysis: "True friends help in times of need." }
-  ]
-};
-
 function App() {
-  const [theme, setTheme] = useState("Love");
   return (
-    <div className="App">
-      <h1>Flashcards</h1>
-      <button onClick={() => setTheme(theme === "Love" ? "Friendship" : "Love")}>
-        Switch to {theme === "Love" ? "Friendship" : "Love"} Quotes
-      </button>
-      <div>
-        {themes[theme].map((card, idx) => (
-          <Flashcard key={idx} quote={card.quote} analysis={card.analysis} />
-        ))}
+    <Router>
+      <div className="app-container">
+        <header className="app-header">
+          <h1>My Quote Learning App</h1>
+          <nav>
+            <ul className="nav-links">
+              <li><Link to="/">Dashboard</Link></li>
+              <li><Link to="/flashcards">Flashcards</Link></li>
+              <li><Link to="/test-mode">Test Mode</Link></li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/flashcards" element={<Flashcards />} />
+            <Route path="/test-mode" element={<TestMode />} />
+          </Routes>
+        </main>
+        <footer className="app-footer">
+          <p>© 2024 My Quote Learning App</p>
+        </footer>
       </div>
-    </div>
+    </Router>
   );
 }
 
